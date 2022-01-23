@@ -10,6 +10,7 @@
   justify-content: space-between;
   align-items: center;
   padding: 20px;
+  background-color: hsl(221, 50%, 88%);
 }
 
 .headerRight {
