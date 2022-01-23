@@ -3,12 +3,23 @@
   place-items: center;
   background-color: #dadbd3;
   height: 100vh;
+  position: relative;
+}
+
+.app__bg {
+  position: absolute;
+  background-color: hsl(221, 100%, 38%);
+  height: 10vh;
+  width: 100%;
+  top: 0;
+  z-index: 0;
 }
 
 .app__body {
   display: flex;
   width: 90vw;
   height: 90vh;
+  z-index: 1;
   background-color: #ededed;
   box-shadow: -1px 4px 20px -6px rgba(0, 0, 0, 0.2);
 }
