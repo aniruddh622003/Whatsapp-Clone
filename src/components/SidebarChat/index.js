@@ -8,22 +8,40 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { useSnackbar } from "notistack";
 import React from "react";
+import { Link } from "react-router-dom";
 import db from "../../firebase";
 import classes from "./index.module.css";
 
-const SidebarChat = ({ addNewButton, name }) => {
+const SidebarChat = ({ id, addNewButton, name }) => {
   const [seed, setSeed] = React.useState("");
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [roomName, setRoomName] = React.useState("");
+  const [last, setLast] = React.useState("");
 
   const { enqueueSnackbar } = useSnackbar();
 
   React.useEffect(() => {
-    setSeed(Math.floor(Math.random() * 5000));
-  }, []);
+    if (id) {
+      onSnapshot(
+        query(
+          collection(db, "rooms", id, "messages"),
+          orderBy("timestamp", "desc")
+        ),
+        (snap) => {
+          setLast(snap.docs.map((doc) => doc.data()));
+        }
+      );
+    }
+  }, [id]);
 
   const createChat = async () => {
     if (roomName) {
@@ -36,13 +54,15 @@ const SidebarChat = ({ addNewButton, name }) => {
   };
 
   return !addNewButton ? (
-    <div className={classes.sidebarChat}>
-      <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
-      <div className={classes.info}>
-        <h2>{name}</h2>
-        <p>Last message...</p>
+    <Link to={`/rooms/${id}`}>
+      <div className={classes.sidebarChat}>
+        <Avatar src={`https://avatars.dicebear.com/api/human/${id}.svg`} />
+        <div className={classes.info}>
+          <h2>{name}</h2>
+          <p>{last[0]?.message}</p>
+        </div>
       </div>
-    </div>
+    </Link>
   ) : (
     <>
       <div onClick={() => setOpen(true)} className={classes.sidebarChat}>

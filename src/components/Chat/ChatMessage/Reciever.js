@@ -1,35 +1,42 @@
 import { Box } from "@mui/material";
 import React from "react";
 
-const RecieverMessage = () => {
+const RecieverMessage = ({ message, name, time }) => {
   return (
-    <div style={{ display: "flex", width: "100%", justifyContent: "start" }}>
+    <div
+      style={{
+        display: "flex",
+        width: "100%",
+        justifyContent: "start",
+        margin: "15px 0",
+        alignItems: "start",
+      }}
+    >
       <Box>
         <Box sx={{ fontWeight: "500", fontSize: "12px", marginBottom: "3px" }}>
-          message sender
+          {name}
         </Box>
         <Box
           sx={{
             backgroundColor: "#fff",
-            padding: "10px",
+            padding: "10px 20px",
             borderRadius: "20px",
             borderTopLeftRadius: "0",
-            position: "relative",
-            paddingBottom: "20px",
+            display: "flex",
+            alignItems: "end",
+            gap: "10px",
+            width: "fit-content",
           }}
         >
-          Message Recieved sdjhfzdkfjh
+          {message}
           <Box
             sx={{
-              position: "absolute",
-              bottom: "3px",
-              right: "10px",
-              fontSize: "12px",
+              fontSize: "10px",
               fontWeight: "500",
               color: "gray",
             }}
           >
-            1:52 pm
+            {new Date(time?.toDate()).toUTCString()}
           </Box>
         </Box>
       </Box>
