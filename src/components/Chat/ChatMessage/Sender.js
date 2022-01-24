@@ -1,7 +1,16 @@
 import { Box } from "@mui/material";
 import React from "react";
 
-const SenderMessage = () => {
+const jso = {
+  name: "eshaan",
+  surname: "dutta",
+};
+
+const { name: firstname, surname } = jso;
+
+console.log(firstname + surname);
+
+const SenderMessage = ({ message }) => {
   return (
     <div style={{ display: "flex", width: "100%", justifyContent: "end" }}>
       <Box
@@ -11,9 +20,23 @@ const SenderMessage = () => {
           color: "#fff",
           borderRadius: "20px",
           borderTopRightRadius: "0",
+          position: "relative",
+          paddingBottom: "20px",
         }}
       >
-        Message Sent
+        {message}
+        <Box
+          sx={{
+            position: "absolute",
+            bottom: "5px",
+            right: "10px",
+            fontSize: "12px",
+            fontWeight: "500",
+            color: "#ccc",
+          }}
+        >
+          1:52 pm
+        </Box>
       </Box>
     </div>
   );

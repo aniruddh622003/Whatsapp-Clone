@@ -14,11 +14,13 @@ import classes from "./index.module.css";
 const Sidebar = () => {
   const [rooms, setRooms] = React.useState([]);
 
-  React.useEffect(() => {
-    onSnapshot(collection(db, "rooms"), (snap) =>
-      setRooms(snap.docs.map((doc) => ({ id: doc.id, data: doc.data() })))
-    );
-  }, []);
+  React.useEffect(
+    () =>
+      onSnapshot(collection(db, "rooms"), (snap) =>
+        setRooms(snap.docs.map((doc) => ({ id: doc.id, data: doc.data() })))
+      ),
+    []
+  );
 
   return (
     <div className={classes.sidebar}>
@@ -54,7 +56,7 @@ const Sidebar = () => {
       <div className={classes.chat}>
         <SidebarChat addNewButton />
         {rooms.map((room) => (
-          <SidebarChat key={room.id} name={room.data.name} />
+          <SidebarChat key={room.id} id={room.id} name={room.data.name} />
         ))}
       </div>
     </div>

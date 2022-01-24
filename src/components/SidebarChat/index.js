@@ -11,12 +11,13 @@ import {
 import { addDoc, collection } from "firebase/firestore";
 import { useSnackbar } from "notistack";
 import React from "react";
+import { Link } from "react-router-dom";
 import db from "../../firebase";
 import classes from "./index.module.css";
 
-const SidebarChat = ({ addNewButton, name }) => {
+const SidebarChat = ({ id, addNewButton, name }) => {
   const [seed, setSeed] = React.useState("");
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   const [roomName, setRoomName] = React.useState("");
 
   const { enqueueSnackbar } = useSnackbar();
@@ -36,13 +37,15 @@ const SidebarChat = ({ addNewButton, name }) => {
   };
 
   return !addNewButton ? (
-    <div className={classes.sidebarChat}>
-      <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
-      <div className={classes.info}>
-        <h2>{name}</h2>
-        <p>Last message...</p>
+    <Link to={`/rooms/${id}`}>
+      <div className={classes.sidebarChat}>
+        <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
+        <div className={classes.info}>
+          <h2>{name}</h2>
+          <p>Last message...</p>
+        </div>
       </div>
-    </div>
+    </Link>
   ) : (
     <>
       <div onClick={() => setOpen(true)} className={classes.sidebarChat}>

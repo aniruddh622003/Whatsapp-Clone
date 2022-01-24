@@ -8,6 +8,7 @@ import {
 } from "@mui/icons-material";
 import { Avatar, IconButton } from "@mui/material";
 import React from "react";
+import { useParams } from "react-router-dom";
 import RecieverMessage from "./ChatMessage/Reciever";
 import SenderMessage from "./ChatMessage/Sender";
 import classes from "./index.module.css";
@@ -15,6 +16,7 @@ import classes from "./index.module.css";
 const Chat = () => {
   const [message, setMessage] = React.useState("");
   const [seed, setSeed] = React.useState("");
+  const { roomId } = useParams();
 
   React.useEffect(() => {
     setSeed(Math.floor(Math.random() * 5000));
@@ -48,7 +50,7 @@ const Chat = () => {
       </div>
       <div className={classes.body}>
         <RecieverMessage />
-        <SenderMessage />
+        <SenderMessage message="Hi dutta" />
       </div>
       <div className={classes.footer}>
         <InsertEmoticon />
