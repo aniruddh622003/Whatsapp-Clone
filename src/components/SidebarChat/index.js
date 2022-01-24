@@ -41,7 +41,7 @@ const SidebarChat = ({ id, addNewButton, name }) => {
         }
       );
     }
-  }, []);
+  }, [id]);
 
   const createChat = async () => {
     if (roomName) {
