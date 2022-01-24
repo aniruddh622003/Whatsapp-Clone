@@ -9,18 +9,26 @@ import {
 import { Avatar, IconButton } from "@mui/material";
 import React from "react";
 import { useParams } from "react-router-dom";
+import { doc, onSnapshot } from "firebase/firestore";
 import RecieverMessage from "./ChatMessage/Reciever";
 import SenderMessage from "./ChatMessage/Sender";
 import classes from "./index.module.css";
+import db from "../../firebase";
 
 const Chat = () => {
   const [message, setMessage] = React.useState("");
   const [seed, setSeed] = React.useState("");
   const { roomId } = useParams();
+  const [roomName, setRoomName] = React.useState("");
 
   React.useEffect(() => {
-    setSeed(Math.floor(Math.random() * 5000));
-  }, []);
+    if (roomId) {
+      onSnapshot(doc(db, "rooms", roomId), (snap) => {
+        setRoomName(snap.data().name);
+        setSeed(snap.id);
+      });
+    }
+  }, [roomId]);
 
   const sendMessage = (e) => {
     e.preventDefault();
@@ -33,7 +41,7 @@ const Chat = () => {
       <div className={classes.header}>
         <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
         <div className={classes.headerInfo}>
-          <h3>Room Name</h3>
+          <h3>{roomName}</h3>
           <p>Last Seen...</p>
         </div>
         <div className={classes.headerRight}>

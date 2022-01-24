@@ -22,10 +22,6 @@ const SidebarChat = ({ id, addNewButton, name }) => {
 
   const { enqueueSnackbar } = useSnackbar();
 
-  React.useEffect(() => {
-    setSeed(Math.floor(Math.random() * 5000));
-  }, []);
-
   const createChat = async () => {
     if (roomName) {
       // Do db stuff
@@ -39,7 +35,7 @@ const SidebarChat = ({ id, addNewButton, name }) => {
   return !addNewButton ? (
     <Link to={`/rooms/${id}`}>
       <div className={classes.sidebarChat}>
-        <Avatar src={`https://avatars.dicebear.com/api/human/${seed}.svg`} />
+        <Avatar src={`https://avatars.dicebear.com/api/human/${id}.svg`} />
         <div className={classes.info}>
           <h2>{name}</h2>
           <p>Last message...</p>
