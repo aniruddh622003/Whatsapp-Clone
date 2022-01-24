@@ -23,7 +23,7 @@ const SenderMessage = ({ message, time }) => {
       <Box
         sx={{
           backgroundColor: "hsl(221, 70%, 33%)",
-          padding: "10px",
+          padding: "10px 20px",
           color: "#fff",
           borderRadius: "20px",
           borderTopRightRadius: "0",

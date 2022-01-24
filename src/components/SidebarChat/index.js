@@ -8,7 +8,13 @@ import {
   DialogTitle,
   TextField,
 } from "@mui/material";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+} from "firebase/firestore";
 import { useSnackbar } from "notistack";
 import React from "react";
 import { Link } from "react-router-dom";
@@ -19,8 +25,23 @@ const SidebarChat = ({ id, addNewButton, name }) => {
   const [seed, setSeed] = React.useState("");
   const [open, setOpen] = React.useState(false);
   const [roomName, setRoomName] = React.useState("");
+  const [last, setLast] = React.useState("");
 
   const { enqueueSnackbar } = useSnackbar();
+
+  React.useEffect(() => {
+    if (id) {
+      onSnapshot(
+        query(
+          collection(db, "rooms", id, "messages"),
+          orderBy("timestamp", "desc")
+        ),
+        (snap) => {
+          setLast(snap.docs.map((doc) => doc.data()));
+        }
+      );
+    }
+  }, []);
 
   const createChat = async () => {
     if (roomName) {
@@ -38,7 +59,7 @@ const SidebarChat = ({ id, addNewButton, name }) => {
         <Avatar src={`https://avatars.dicebear.com/api/human/${id}.svg`} />
         <div className={classes.info}>
           <h2>{name}</h2>
-          <p>Last message...</p>
+          <p>{last[0]?.message}</p>
         </div>
       </div>
     </Link>

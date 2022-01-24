@@ -19,7 +19,7 @@ const RecieverMessage = ({ message, name, time }) => {
         <Box
           sx={{
             backgroundColor: "#fff",
-            padding: "10px",
+            padding: "10px 20px",
             borderRadius: "20px",
             borderTopLeftRadius: "0",
             display: "flex",

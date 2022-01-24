@@ -107,7 +107,11 @@ const Chat = () => {
             type="text"
             placeholder="Type a message"
           />
-          <IconButton type="submit" onClick={sendMessage}>
+          <IconButton
+            sx={{ marginLeft: "10px" }}
+            type="submit"
+            onClick={sendMessage}
+          >
             <Send />
           </IconButton>
         </form>
