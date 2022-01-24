@@ -8,11 +8,13 @@ import { Avatar, IconButton, InputAdornment, TextField } from "@mui/material";
 import { onSnapshot, collection } from "firebase/firestore";
 import React from "react";
 import db from "../../firebase";
+import { useUserValue } from "../../providers/UserProvider";
 import SidebarChat from "../SidebarChat";
 import classes from "./index.module.css";
 
 const Sidebar = () => {
   const [rooms, setRooms] = React.useState([]);
+  const [{ user }, dispatch] = useUserValue();
 
   React.useEffect(
     () =>
@@ -25,7 +27,7 @@ const Sidebar = () => {
   return (
     <div className={classes.sidebar}>
       <div className={classes.header}>
-        <Avatar />
+        <Avatar src={user?.photoURL} />
         <div className={classes.headerRight}>
           <IconButton>
             <DonutLargeOutlined sx={{ fontSize: "24px" }} />

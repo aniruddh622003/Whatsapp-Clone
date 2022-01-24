@@ -15,7 +15,7 @@ const SenderMessage = ({ message }) => {
     <div style={{ display: "flex", width: "100%", justifyContent: "end" }}>
       <Box
         sx={{
-          backgroundColor: "hsl(221, 100%, 38%)",
+          backgroundColor: "hsl(221, 70%, 33%)",
           padding: "10px",
           color: "#fff",
           borderRadius: "20px",
