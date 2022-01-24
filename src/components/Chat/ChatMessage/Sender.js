@@ -10,9 +10,16 @@ const { name: firstname, surname } = jso;
 
 console.log(firstname + surname);
 
-const SenderMessage = ({ message }) => {
+const SenderMessage = ({ message, time }) => {
   return (
-    <div style={{ display: "flex", width: "100%", justifyContent: "end" }}>
+    <div
+      style={{
+        display: "flex",
+        width: "100%",
+        justifyContent: "end",
+        margin: "15px 0",
+      }}
+    >
       <Box
         sx={{
           backgroundColor: "hsl(221, 70%, 33%)",
@@ -20,22 +27,21 @@ const SenderMessage = ({ message }) => {
           color: "#fff",
           borderRadius: "20px",
           borderTopRightRadius: "0",
-          position: "relative",
-          paddingBottom: "20px",
+          display: "flex",
+          alignItems: "end",
+          gap: "10px",
+          width: "fit-content",
         }}
       >
         {message}
         <Box
           sx={{
-            position: "absolute",
-            bottom: "5px",
-            right: "10px",
-            fontSize: "12px",
+            fontSize: "8px",
             fontWeight: "500",
             color: "#ccc",
           }}
         >
-          1:52 pm
+          {new Date(time?.toDate()).toUTCString()}
         </Box>
       </Box>
     </div>

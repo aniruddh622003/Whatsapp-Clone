@@ -1,14 +1,18 @@
 import {
   Chat,
   DonutLargeOutlined,
+  ExitToApp,
   MoreVert,
   Search,
 } from "@mui/icons-material";
 import { Avatar, IconButton, InputAdornment, TextField } from "@mui/material";
+import { signOut } from "firebase/auth";
 import { onSnapshot, collection } from "firebase/firestore";
+import { useSnackbar } from "notistack";
 import React from "react";
-import db from "../../firebase";
+import db, { auth } from "../../firebase";
 import { useUserValue } from "../../providers/UserProvider";
+import { actionTypes } from "../../reducer";
 import SidebarChat from "../SidebarChat";
 import classes from "./index.module.css";
 
@@ -24,6 +28,20 @@ const Sidebar = () => {
     []
   );
 
+  const { enqueueSnackbar } = useSnackbar();
+
+  const _signOut = () => {
+    signOut(auth)
+      .then(() => {
+        dispatch({
+          type: actionTypes.SET_USER,
+          user: null,
+        });
+        enqueueSnackbar("Signed out", { variant: "success" });
+      })
+      .catch((err) => enqueueSnackbar(err.message, { variant: "error" }));
+  };
+
   return (
     <div className={classes.sidebar}>
       <div className={classes.header}>
@@ -35,8 +53,8 @@ const Sidebar = () => {
           <IconButton>
             <Chat sx={{ fontSize: "24px" }} />
           </IconButton>
-          <IconButton>
-            <MoreVert sx={{ fontSize: "24px" }} />
+          <IconButton onClick={_signOut}>
+            <ExitToApp sx={{ fontSize: "24px" }} />
           </IconButton>
         </div>
       </div>

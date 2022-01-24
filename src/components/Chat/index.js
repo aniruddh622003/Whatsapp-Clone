@@ -9,17 +9,28 @@ import {
 import { Avatar, IconButton } from "@mui/material";
 import React from "react";
 import { useParams } from "react-router-dom";
-import { doc, onSnapshot } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  doc,
+  onSnapshot,
+  orderBy,
+  query,
+  serverTimestamp,
+} from "firebase/firestore";
 import RecieverMessage from "./ChatMessage/Reciever";
 import SenderMessage from "./ChatMessage/Sender";
 import classes from "./index.module.css";
 import db from "../../firebase";
+import { useUserValue } from "../../providers/UserProvider";
 
 const Chat = () => {
   const [message, setMessage] = React.useState("");
   const [seed, setSeed] = React.useState("");
   const { roomId } = useParams();
   const [roomName, setRoomName] = React.useState("");
+  const [messages, setMessages] = React.useState([]);
+  const [{ user }, dispatch] = useUserValue();
 
   React.useEffect(() => {
     if (roomId) {
@@ -27,12 +38,30 @@ const Chat = () => {
         setRoomName(snap.data().name);
         setSeed(snap.id);
       });
+      onSnapshot(
+        query(
+          collection(db, "rooms", roomId, "messages"),
+          orderBy("timestamp", "asc")
+        ),
+        (snap) => {
+          setMessages(snap.docs.map((doc) => doc.data()));
+          console.log(messages);
+        }
+      );
     }
   }, [roomId]);
 
   const sendMessage = (e) => {
     e.preventDefault();
-    alert(`Yout typed -> ${message}`);
+    if (message !== "") {
+      addDoc(collection(db, "rooms", roomId, "messages"), {
+        message: message,
+        senderID: user.uid,
+        senderName: user.displayName,
+        timestamp: serverTimestamp(),
+      });
+    }
+
     setMessage("");
   };
 
@@ -57,8 +86,17 @@ const Chat = () => {
         </div>
       </div>
       <div className={classes.body}>
-        <RecieverMessage />
-        <SenderMessage message="Hi dutta" />
+        {messages.map((ele, id) =>
+          ele.senderID == user.uid ? (
+            <SenderMessage message={ele.message} time={ele.timestamp} />
+          ) : (
+            <RecieverMessage
+              message={ele.message}
+              name={ele.senderName}
+              time={ele.timestamp}
+            />
+          )
+        )}
       </div>
       <div className={classes.footer}>
         <InsertEmoticon />
