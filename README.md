@@ -11,3 +11,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 Automatically hosted to https://whatsapp-clone-react-a3bba.web.app/ when any request is merged to the main branch.
 
 All pull requests get their own preview link for testing purposes.
+
+## Media
+
+<img src="media/Sign in.png" width="100%"/>
+<img src="media/Chat.png" width="100%"/>
